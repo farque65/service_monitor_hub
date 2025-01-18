@@ -10,14 +10,25 @@ import {
 } from "lucide-react";
 import { LoginPage } from "./components/LoginPage";
 import { Navbar } from "./components/Navbar";
+import { NewMonitorModal } from "./components/NewMonitorModal";
 export function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isNewMonitorModalOpen, setIsNewMonitorModalOpen] = useState(false);
   if (!isAuthenticated) {
     return <LoginPage onLogin={() => setIsAuthenticated(true)} />;
   }
+  const handleNewMonitor = (data: any) => {
+    console.log("New monitor data:", data);
+    setIsNewMonitorModalOpen(false);
+  };
   return (
     <div className="flex flex-col w-full min-h-screen bg-gray-50">
       <Navbar onLogout={() => setIsAuthenticated(false)} />
+      <NewMonitorModal
+        isOpen={isNewMonitorModalOpen}
+        onClose={() => setIsNewMonitorModalOpen(false)}
+        onSubmit={handleNewMonitor}
+      />
       <div className="flex flex-1">
         <div className="w-64 bg-white border-r border-gray-200 p-4">
           <div className="flex items-center space-x-2 mb-8">
@@ -81,7 +92,10 @@ export function App() {
             <h1 className="text-2xl font-semibold text-gray-900">
               Monitoring Dashboard
             </h1>
-            <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <button
+              onClick={() => setIsNewMonitorModalOpen(true)}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
               <Plus className="h-5 w-5" />
               <span>New Monitor</span>
             </button>
